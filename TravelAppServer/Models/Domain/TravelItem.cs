@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,7 @@ namespace TravelApp.Models
             }
         }
 
+        [JsonConstructor]
         public TravelItem(string name, int amount, string category)
         {
             Name = name;

@@ -19,6 +19,8 @@ namespace TravelAppServer.Data.Repositories
             _users = dbContext.Users;
         }
 
+
+
         public void Add(User user)
         {
             _users.Add(user);
@@ -29,23 +31,37 @@ namespace TravelAppServer.Data.Repositories
             _users.Remove(user);
         }
 
+        public void Update(User user)
+        {
+            _users.Update(user);
+        }
+
         public IEnumerable<User> GetAllUsers()
         {
             return _users
+                .Include(u => u.Travelplans).ThenInclude(t => t.RouteList).ThenInclude(r => r.Locations)
                 .Include(u => u.Travelplans).ThenInclude(t => t.ItemList)
                 .Include(u => u.Travelplans).ThenInclude(t => t.TaskList)
-                .Include(u => u.Travelplans).ThenInclude(t => t.RouteList).ThenInclude(r => r.Locations)
                 .ToList();
+        }
+
+        public IEnumerable<User> GetAllUsersShort()
+        {
+            return _users.ToList();
         }
 
         public User GetById(int userId)
         {
-            return _users.SingleOrDefault(u => u.UserId == userId);
+            return GetAllUsers().SingleOrDefault(u => u.UserId == userId);
         }
 
         public User GetByName(string username)
         {
-            return _users.SingleOrDefault(u => u.UserName == username);
+            return GetAllUsers().SingleOrDefault(u => u.UserName == username);
+        }
+        public User GetByNameShort(string username)
+        {
+            return GetAllUsersShort().SingleOrDefault(u => u.UserName == username);
         }
 
         public void SaveChanges()

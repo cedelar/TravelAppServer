@@ -30,7 +30,7 @@ namespace TravelApp.Models
                 _name = value;
             }
         }
-        public ICollection<TravelLocation> Locations { get; private set; }
+        public ICollection<TravelLocation> Locations { get; set; }
         public string Description
         {
             get
@@ -50,6 +50,7 @@ namespace TravelApp.Models
             this.Description = description;
             this.Locations = new List<TravelLocation>();
         }
+
         public TravelRoute(string name, string description, ICollection<TravelLocation> locations)
         {
             this.Name = name;

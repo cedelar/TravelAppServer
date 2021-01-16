@@ -108,9 +108,12 @@ namespace TravelAppServer.Data
                     TravelPlan plan = new TravelPlan(travelnames[i], startdates[i], enddates[i], destinations[i]);
                     itemnames[i].ForEach(s => plan.AddTravelItem(s));
                     tasknames[i].ForEach(s => plan.AddTravelTask(s));
-                    plan.AddTravelRoute(new TravelRoute("route1", "desc1", locations[0]));
-                    plan.AddTravelRoute(new TravelRoute("route2", "desc2", locations[1]));
-                    plan.AddTravelRoute(new TravelRoute("route3", "desc3"));
+                    if(i == 0)
+                    {
+                        plan.AddTravelRoute(new TravelRoute("route1", "desc1", locations[0]));
+                        plan.AddTravelRoute(new TravelRoute("route2", "desc2", locations[1]));
+                        plan.AddTravelRoute(new TravelRoute("route3", "desc3"));
+                    }
                     user.AddTravelPlan(plan);
                 }
 

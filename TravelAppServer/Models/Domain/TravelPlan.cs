@@ -43,9 +43,9 @@ namespace TravelApp.Models
             }
         }
 
-        public ICollection<TravelItem> ItemList { get; private set; }
-        public ICollection<TravelTask> TaskList { get; private set; }
-        public ICollection<TravelRoute> RouteList { get; private set; }
+        public ICollection<TravelItem> ItemList { get; set; }
+        public ICollection<TravelTask> TaskList { get; set; }
+        public ICollection<TravelRoute> RouteList { get; set; }
         #endregion
 
         public TravelPlan(string name, DateTime startDate, DateTime endDate, string destination)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TravelApp.Models
 {
@@ -50,9 +51,19 @@ namespace TravelApp.Models
             Travelplans = new List<TravelPlan>();
         }
 
+        public ICollection<TravelPlan> getTravelPlan(string name)
+        {
+            return this.Travelplans.Where(t => t.Name == name).ToList();
+        }
+
         public void AddTravelPlan(TravelPlan travelPlan)
         {
             Travelplans.Add(travelPlan);
+        }
+
+        public void RemoveTravelPlan(string name)
+        {
+            this.Travelplans.Where(t => t.Name == name).ToList().ForEach(e => this.Travelplans.Remove(e));
         }
     }
 }

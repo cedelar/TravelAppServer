@@ -45,6 +45,7 @@ namespace TravelApp.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
+
         public TravelLocation(string name, string location, double latitude, double longitude)
         {
             Name = name;
