@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TravelApp.Models
 {
@@ -16,6 +12,7 @@ namespace TravelApp.Models
         {
             get; set;
         }
+
         public string Name
         {
             get
@@ -30,6 +27,7 @@ namespace TravelApp.Models
                 _name = value;
             }
         }
+
         public bool IsChecked { get; set; }
         public int Priority { get; set; }
         public string Description

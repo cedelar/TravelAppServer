@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TravelApp.Models;
 
 namespace TravelAppServer.Data
@@ -68,7 +66,6 @@ namespace TravelAppServer.Data
                new List<TravelItem>{}
             };
 
-
                 List<List<TravelTask>> tasknames = new List<List<TravelTask>>
             {
                 new List<TravelTask> {
@@ -100,7 +97,6 @@ namespace TravelAppServer.Data
                 new TravelLocation("Gent", "Gent", 51.0538286, 3.7250121),
                 new TravelLocation("Antwerpen", "Antwerpen", 51.2211097, 4.3997081)
                 }
-
             };
 
                 for (int i = 0; i < travelnames.Count; i++)

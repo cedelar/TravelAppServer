@@ -13,6 +13,7 @@ namespace TravelApp.Models
         {
             get; set;
         }
+
         public string UserName {
             get
             {
@@ -26,6 +27,7 @@ namespace TravelApp.Models
                 _userName = value;
             }
         }
+
         public string Password
         {
             get
@@ -40,7 +42,6 @@ namespace TravelApp.Models
                 _password = value;
             }
         }
-
 
         public ICollection<TravelPlan> Travelplans { get; set; }
 

@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TravelApp.Models
 {
@@ -16,6 +13,7 @@ namespace TravelApp.Models
         {
             get; set;
         }
+
         public string Name
         {
             get
@@ -30,6 +28,7 @@ namespace TravelApp.Models
                 _name = value;
             }
         }
+
         public ICollection<TravelLocation> Locations { get; set; }
         public string Description
         {
@@ -44,6 +43,7 @@ namespace TravelApp.Models
             }
         }
 
+        [JsonConstructor]
         public TravelRoute(string name, string description)
         {
             this.Name = name;
@@ -57,7 +57,6 @@ namespace TravelApp.Models
             this.Description = description;
             this.Locations = locations;
         }
-
 
         public void AddTravelLocation(TravelLocation travelLocation)
         {

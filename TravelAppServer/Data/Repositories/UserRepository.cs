@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TravelApp.Models;
 using TravelAppServer.Models.Domain.IRepositories;
 
@@ -18,8 +16,6 @@ namespace TravelAppServer.Data.Repositories
             _dbContext = dbContext;
             _users = dbContext.Users;
         }
-
-
 
         public void Add(User user)
         {

@@ -4,12 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using TravelApp.Models;
 using TravelAppServer.Models;
 using TravelAppServer.Models.Domain.IRepositories;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TravelAppServer.Controllers
 {
@@ -23,7 +20,6 @@ namespace TravelAppServer.Controllers
         {
             _userRepository = userRepository;
         }
-
 
         // GET: api/User/getAll
         [HttpGet("getAll")]
@@ -84,7 +80,7 @@ namespace TravelAppServer.Controllers
                 user.AddTravelPlan(newPlan);
                 _userRepository.Update(user);
                 _userRepository.SaveChanges();
-                return username + "'s TravelPlan " + newPlan.Name + " added succesfully.";
+                return username + "'s TravelPlan \"" + newPlan.Name + "\" added succesfully.";
             }catch(Exception e)
             {
                 return "Error: " + e.Message;
@@ -102,6 +98,10 @@ namespace TravelAppServer.Controllers
             try
             {
                 User user = _userRepository.GetByName(username);
+                if (user.Travelplans.Where(t => t.Name == travelplanname).Count() < 1)
+                {
+                    return "Error: Unknown travelplan";
+                }
                 user.RemoveTravelPlan(travelplanname);
                 _userRepository.Update(user);
                 _userRepository.SaveChanges();
@@ -137,7 +137,7 @@ namespace TravelAppServer.Controllers
                 user.Travelplans.Where(t => t.Name == travelplan).First().AddTravelItem(response);
                 _userRepository.Update(user);
                 _userRepository.SaveChanges();
-                return response.Name + " succesfully added to " + username + "'s TravelPlan \"" + travelplan;
+                return response.Name + " succesfully added to " + username + "'s TravelPlan \"" + travelplan + "\"";
             }
         }
 
@@ -164,7 +164,7 @@ namespace TravelAppServer.Controllers
                 user.Travelplans.Where(t => t.Name == travelplan).First().AddTravelTask(response);
                 _userRepository.Update(user);
                 _userRepository.SaveChanges();
-                return response.Name + " succesfully added to " + username + "'s TravelPlan \"" + travelplan;
+                return response.Name + " succesfully added to " + username + "'s TravelPlan \"" + travelplan + "\"";
             }
         }
 
@@ -191,7 +191,7 @@ namespace TravelAppServer.Controllers
                 user.Travelplans.Where(t => t.Name == travelplan).First().AddTravelRoute(response);
                 _userRepository.Update(user);
                 _userRepository.SaveChanges();
-                return response.Name + " succesfully added to " + username + "'s TravelPlan \"" + travelplan;
+                return response.Name + " succesfully added to " + username + "'s TravelPlan \"" + travelplan + "\"";
             }
         }
 
@@ -222,20 +222,50 @@ namespace TravelAppServer.Controllers
                 user.Travelplans.Where(t => t.Name == travelplan).First().RouteList.Where(i => i.Name == travelroute).First().AddTravelLocation(response);
                 _userRepository.Update(user);
                 _userRepository.SaveChanges();
-                return response.Name + " succesfully added to " + username + "'s TravelRoute \"" + travelroute;
+                return response.Name + " succesfully added to " + username + "'s TravelRoute \"" + travelroute + "\"";
             }
         }
 
-        // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/User/editTravelPlan/{username}
+        [HttpPut("editTravelPlan/{username}")]
+        public string EditTravelPlan(string username, [FromBody] JsonElement value)
         {
-        }
-
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            if (_userRepository.GetAllUsersShort().Where(u => u.UserName == username).Count() < 1)
+            {
+                return "Error: Unknown user";
+            }
+            else
+            {
+                User user = _userRepository.GetByName(username);
+                TravelPlan editedPlan = JsonConvert.DeserializeObject<TravelPlan>(value.GetRawText());
+                if (user.Travelplans.Where(t => t.Name == editedPlan.Name).Count() < 1)
+                {
+                    return "Error: Unknown travelplan";
+                }
+                try
+                {
+                    TravelPlan oldTravelPlan = user.Travelplans.Where(t => t.Name == editedPlan.Name).First();
+                    if(oldTravelPlan.StartDate.Date != editedPlan.StartDate.Date)
+                    {
+                        oldTravelPlan.StartDate = editedPlan.StartDate;
+                    }
+                    if (oldTravelPlan.EndDate.Date != editedPlan.EndDate.Date)
+                    {
+                        oldTravelPlan.EndDate = editedPlan.EndDate;
+                    }
+                    if (oldTravelPlan.Destination != editedPlan.Destination)
+                    {
+                        oldTravelPlan.Destination = editedPlan.Destination;
+                    }
+                    _userRepository.Update(user);
+                    _userRepository.SaveChanges();
+                    return username + "'s TravelPlan " + oldTravelPlan.Name + " updated succesfully.";
+                }
+                catch (Exception e)
+                {
+                    return "Error: " + e.Message;
+                }
+            }
         }
     }
 }

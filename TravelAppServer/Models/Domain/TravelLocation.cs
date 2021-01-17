@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace TravelApp.Models
 {
     public class TravelLocation
     {
-
         private string _name;
         private string _location;
 
@@ -16,6 +12,7 @@ namespace TravelApp.Models
         {
             get; set;
         }
+
         public string Name
         {
             get
@@ -30,6 +27,7 @@ namespace TravelApp.Models
                 _name = value;
             }
         }
+
         public string Location
         {
             get
@@ -45,7 +43,7 @@ namespace TravelApp.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-
+        [JsonConstructor]
         public TravelLocation(string name, string location, double latitude, double longitude)
         {
             Name = name;
